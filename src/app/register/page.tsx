@@ -2,8 +2,17 @@
 
 import { useState } from "react";
 
+interface FormData {
+  name: string;
+  usn: string;
+  branch: string;
+  language: "C" | "C++" | "Python" | "Java";
+  phone: string;
+  email: string;
+}
+
 export default function RegisterPage() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormData>({
     name: "",
     usn: "",
     branch: "",
@@ -11,31 +20,40 @@ export default function RegisterPage() {
     phone: "",
     email: "",
   });
-  const [message, setMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const [message, setMessage] = useState<string>("");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    const data = await res.json();
-    setMessage(data.message || "Something went wrong!");
+      const data: { message?: string } = await res.json();
+      setMessage(data.message || "Something went wrong!");
+    } catch (err) {
+      setMessage("Failed to submit. Please try again!");
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
       <div className="bg-gray-100 shadow-xl p-8 rounded-xl w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Byte Battle Registration</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          Byte Battle Registration
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name */}
           <input
             name="name"
             placeholder="Full Name"
@@ -45,7 +63,6 @@ export default function RegisterPage() {
             className="w-full p-2 border rounded"
           />
 
-          {/* USN */}
           <input
             name="usn"
             placeholder="USN (e.g. 1DT23CS140)"
@@ -55,7 +72,6 @@ export default function RegisterPage() {
             className="w-full p-2 border rounded"
           />
 
-          {/* Branch */}
           <input
             name="branch"
             placeholder="Branch"
@@ -65,7 +81,6 @@ export default function RegisterPage() {
             className="w-full p-2 border rounded"
           />
 
-          {/* Coding Language Dropdown */}
           <select
             name="language"
             value={form.language}
@@ -78,7 +93,6 @@ export default function RegisterPage() {
             <option value="Java">Java</option>
           </select>
 
-          {/* Phone */}
           <input
             name="phone"
             type="tel"
@@ -89,7 +103,6 @@ export default function RegisterPage() {
             className="w-full p-2 border rounded"
           />
 
-          {/* Email */}
           <input
             name="email"
             type="email"
