@@ -53,8 +53,8 @@ export default function HomePage() {
       onMouseMove={handleMouseMove}
       style={{ "--mouse-x": `${mousePos.x}px`, "--mouse-y": `${mousePos.y}px` } as React.CSSProperties}
     >
-      {/* Full-page Grid pinned to viewport to avoid affecting scroll height */}
-      <div className="fixed inset-0 -z-10 pointer-events-none">
+      {/* Full-page Grid pinned to viewport */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="full-grid"></div>
         <div className="full-grid overlay"></div>
         {/* Subtle pointer effect */}
@@ -75,7 +75,7 @@ export default function HomePage() {
           {timeBox(seconds, "Seconds")}
         </div>
 
-        <div className="w-full max-w-4xl -mt-7">
+        <div className="w-full max-w-4xl -mt-11">
           <HeroSection />
         </div>
 

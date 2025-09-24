@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,21 +12,20 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-transparent backdrop-blur-md sticky top-0 z-50 border-b border-red-900/30">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
-        
+      <div className="max-w-7xl mx-auto px-6 h-22 flex items-center justify-between relative">
+
         {/* Logo scrolls to top of page.tsx content */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-2 text-2xl font-bold font-mono text-red-600 hover:text-red-600 transition-colors"
+          className="flex items-center gap-4 h-full -ml-8 text-2xl md:text-3xl font-bold font-mono text-red-600 hover:text-red-600 transition-colors"
         >
-          <Image
-            src="/bb-logo.png"
-            alt="BB Logo"
-            width={36}
-            height={36}
-            className="h-7 w-7 md:h-9 md:w-9 object-contain"
-            priority
+          {/* BB Icon */}
+          <img
+            src="/bb-logo.jpg"
+            alt="BB"
+            className="h-22 w-auto rounded-full object-contain"
           />
+
           <span style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
             BYTE BATTLE
           </span>
