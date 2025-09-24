@@ -53,8 +53,8 @@ export default function HomePage() {
       onMouseMove={handleMouseMove}
       style={{ "--mouse-x": `${mousePos.x}px`, "--mouse-y": `${mousePos.y}px` } as React.CSSProperties}
     >
-      {/* Full-page Grid */}
-      <div className="absolute inset-0">
+      {/* Full-page Grid pinned to viewport to avoid affecting scroll height */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
         <div className="full-grid"></div>
         <div className="full-grid overlay"></div>
         {/* Subtle pointer effect */}
