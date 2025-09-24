@@ -1,8 +1,8 @@
+// src/app/api/register/route.ts
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import Registration from "@/models/Registration";
+import { supabaseServer } from "@/lib/supabase";
 
-interface RegisterRequest {
+export interface RegisterRequest {
   name: string;
   usn: string;
   branch: string;
@@ -15,33 +15,42 @@ export async function POST(req: Request) {
   try {
     const body: RegisterRequest = await req.json();
 
-    await connectDB();
+    // basic server-side validation
+    if (!body.name || !body.usn || !body.email) {
+      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+    }
 
-    const exists = await Registration.findOne({
-      $or: [{ email: body.email }, { usn: body.usn }],
-    });
+    // check duplicates by email or usn
+    const { data: existing, error: checkErr } = await supabaseServer
+      .from("registrations")
+      .select("id")
+      .or(`email.eq.${body.email},usn.eq.${body.usn}`)
+      .limit(1);
 
-    if (exists) {
+    if (checkErr) throw checkErr;
+    if (existing && existing.length > 0) {
       return NextResponse.json({ message: "User already registered" }, { status: 400 });
     }
 
-    const newUser = await Registration.create(body);
+    const { data, error: insertErr } = await supabaseServer
+      .from("registrations")
+      .insert({
+        name: body.name,
+        usn: body.usn,
+        branch: body.branch,
+        language: body.language,
+        phone: body.phone,
+        email: body.email,
+      })
+      .select()
+      .single();
 
-    return NextResponse.json({ message: "Registered successfully!", user: newUser }, { status: 201 });
-  } catch (error) {
-    console.error(error);
-    const err = error instanceof Error ? error : new Error("Unknown error");
-    return NextResponse.json({ message: err.message }, { status: 500 });
-  }
-}
+    if (insertErr) throw insertErr;
 
-export async function GET() {
-  try {
-    await connectDB();
-    const users = await Registration.find().sort({ createdAt: -1 });
-    return NextResponse.json(users);
+    return NextResponse.json({ message: "Registered successfully!", user: data }, { status: 201 });
   } catch (error) {
-    const err = error instanceof Error ? error : new Error("Unknown error");
-    return NextResponse.json({ message: err.message }, { status: 500 });
+    console.error("Registration error:", error);
+    const err = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ message: err }, { status: 500 });
   }
 }
