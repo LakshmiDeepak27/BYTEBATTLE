@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
   const handleScroll = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -11,7 +12,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-transparent backdrop-blur-md sticky top-0 z-50 border-b border-red-900/30">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
         
         {/* Logo scrolls to top of page.tsx content */}
         <button
@@ -21,6 +22,17 @@ export default function Navbar() {
           <span style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
             BYTE BATTLE
           </span>
+        </button>
+
+        {/* Hamburger - mobile only */}
+        <button
+          className="md:hidden p-2 rounded-lg border border-red-900/40 text-red-200 hover:bg-red-900/30"
+          aria-label="Toggle navigation menu"
+          onClick={() => setIsOpen((v) => !v)}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
         </button>
 
         {/* Navigation Links */}
@@ -63,6 +75,19 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+
+      {/* Mobile dropdown panel - overlays, does not push layout */}
+      {isOpen && (
+        <div className="md:hidden absolute left-0 right-0 top-full bg-black/90 backdrop-blur border-b border-red-900/40 z-40">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-3 text-red-100 font-semibold">
+            <button onClick={() => { setIsOpen(false); handleScroll("about"); }} className="text-left py-2">About</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("rules"); }} className="text-left py-2">Rules & Regulations</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("event"); }} className="text-left py-2">Event Info</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("organisers"); }} className="text-left py-2">Organisers</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("register"); }} className="mt-2 py-2 text-left">Register</button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
