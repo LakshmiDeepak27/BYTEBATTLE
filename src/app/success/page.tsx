@@ -10,7 +10,7 @@ export default function SuccessPage() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6">
       <div className="max-w-2xl w-full panel-on-grid rounded-2xl p-10 shadow-xl border border-red-900/30 text-center">
-        <h1 className="text-3xl font-bold text-red-600 mb-4">You're registered 🎉</h1>
+        <h1 className="text-3xl font-bold text-red-600 mb-4">You&apos;re registered 🎉</h1>
         <p className="text-gray-300 mb-4">
           Thanks for registering for Byte Battle. Check your email for confirmation (if configured) or wait for further instructions.
         </p>
