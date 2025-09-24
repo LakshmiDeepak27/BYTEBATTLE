@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 interface Position {
@@ -21,10 +20,7 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Hide default cursor */}
       <style>{`body, * { cursor: none !important; }`}</style>
-
-      {/* Custom arrow cursor */}
       <div
         style={{
           position: "fixed",
@@ -35,15 +31,9 @@ export default function CustomCursor() {
           pointerEvents: "none",
           zIndex: 9999,
           transform: "translate(-0%, -0%)",
-        } as React.CSSProperties} // explicit type for inline styles
+        } as React.CSSProperties}
       >
-        <svg
-          width="20"
-          height="28"
-          viewBox="0 0 20 28"
-          fill="black"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="20" height="28" viewBox="0 0 20 28" fill="black" xmlns="http://www.w3.org/2000/svg">
           <polygon points="0,0 0,28 20,14" />
         </svg>
       </div>

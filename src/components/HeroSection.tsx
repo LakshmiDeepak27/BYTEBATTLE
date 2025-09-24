@@ -2,7 +2,9 @@ const HeroSection = () => {
   return (
     <section className="h-screen flex flex-col justify-center items-center bg-gradient-to-br from-purple-700 to-indigo-900 text-white text-center px-6">
       <h1 className="text-6xl font-extrabold mb-6 animate-pulse">Byte Battle</h1>
-      <p className="text-xl mb-10 max-w-xl">The ultimate coding contest to show off your skills and win amazing prizes!</p>
+      <p className="text-xl mb-10 max-w-xl">
+        The ultimate coding contest to show off your skills and win amazing prizes!
+      </p>
       <a
         href="/register"
         className="relative inline-block px-10 py-4 font-bold text-white rounded-full overflow-hidden group hover:scale-105 transition-transform shadow-2xl"

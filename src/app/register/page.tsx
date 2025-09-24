@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = "force-dynamic";
 import { useState } from "react";
 
 interface FormData {
@@ -10,6 +10,9 @@ interface FormData {
   phone: string;
   email: string;
 }
+
+// Note: Metadata cannot be exported from client components in Next.js 15
+// The page title will be inherited from the root layout
 
 export default function RegisterPage() {
   const [form, setForm] = useState<FormData>({
@@ -42,7 +45,8 @@ export default function RegisterPage() {
 
       const data: { message?: string } = await res.json();
       setMessage(data.message || "Something went wrong!");
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setMessage("Failed to submit. Please try again!");
     }
   };
