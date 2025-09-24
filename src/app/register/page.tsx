@@ -1,4 +1,3 @@
-// src/app/register/page.tsx
 "use client";
 export const dynamic = "force-dynamic";
 
@@ -29,7 +28,6 @@ export default function RegisterPage() {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-  // Simple USN pattern: (example like 1DT23CS140) - adjust to your college format
   const usnPattern = /^[0-9A-Za-z-]{5,20}$/;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -69,7 +67,6 @@ export default function RegisterPage() {
       const data = await res.json();
       setMessage(data.message || "Something went wrong.");
       if (res.ok) {
-        // redirect to success page
         router.push("/success");
       }
     } catch (err) {
@@ -81,9 +78,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-6">
-      <div className="max-w-lg w-full panel-on-grid rounded-2xl p-8 shadow-xl border border-red-900/30">
-        <h2 className="text-2xl font-bold text-red-600 mb-4 text-center">Register for Byte Battle</h2>
+    <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="w-full max-w-lg rounded-2xl backdrop-blur bg-black/50 p-8 border border-red-900 neon-glow shadow-2xl">
+        <h1
+          className="text-3xl font-bold glitch-text text-center mb-6"
+          data-text="BYTE BATTLE"
+        >
+          BYTE BATTLE
+        </h1>
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
@@ -92,7 +94,7 @@ export default function RegisterPage() {
             value={form.name}
             onChange={handleChange}
             required
-            className="w-full p-3 rounded bg-black/30 border border-red-800 text-white"
+            className="cyber-input"
           />
           <input
             name="usn"
@@ -100,7 +102,7 @@ export default function RegisterPage() {
             value={form.usn}
             onChange={handleChange}
             required
-            className="w-full p-3 rounded bg-black/30 border border-red-800 text-white"
+            className="cyber-input"
           />
           <input
             name="branch"
@@ -108,13 +110,13 @@ export default function RegisterPage() {
             value={form.branch}
             onChange={handleChange}
             required
-            className="w-full p-3 rounded bg-black/30 border border-red-800 text-white"
+            className="cyber-input"
           />
           <select
             name="language"
             value={form.language}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-black/30 border border-red-800 text-white"
+            className="cyber-input"
           >
             <option value="C">C</option>
             <option value="C++">C++</option>
@@ -128,7 +130,7 @@ export default function RegisterPage() {
             value={form.phone}
             onChange={handleChange}
             required
-            className="w-full p-3 rounded bg-black/30 border border-red-800 text-white"
+            className="cyber-input"
           />
           <input
             name="email"
@@ -137,19 +139,21 @@ export default function RegisterPage() {
             value={form.email}
             onChange={handleChange}
             required
-            className="w-full p-3 rounded bg-black/30 border border-red-800 text-white"
+            className="cyber-input"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-3 rounded-2xl bg-red-700 hover:bg-red-600 transition font-semibold text-white"
+            className="cyber-button"
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
-        {message && <p className="mt-4 text-center text-sm text-gray-200">{message}</p>}
+        {message && (
+          <p className="mt-4 text-center text-sm text-gray-200">{message}</p>
+        )}
       </div>
     </div>
   );

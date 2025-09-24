@@ -1,25 +1,33 @@
-// src/app/layout.tsx
-import "./globals.css";
-import type { ReactNode } from "react";
+import './globals.css'
+import type { Metadata } from 'next'
+import { Orbitron } from 'next/font/google'
 
-export const metadata = {
-  title: "Byte Battle",
-  description: "Fast paced coding contest",
-};
+const orbitron = Orbitron({ subsets: ['latin'], weight: ['600'] })
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+  title: 'BYTE BATTLE',
+  description: 'Cyberpunk Coding Contest Registration',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-black text-white antialiased">
-        {/* Moving grid - single instance for entire app */}
-        <div className="moving-grid" aria-hidden="true" />
-
-        {/* subtle vignette on top of grid */}
-        <div className="grid-vignette" aria-hidden="true" />
-
-        {/* main page content goes here — ensure it uses .with-grid-content or z-10 */}
-        <div className="with-grid-content">{children}</div>
+      <head>
+        {/* Custom Font for cyberpunk effect */}
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+      </head>
+      <body className={orbitron.className}>
+        {/* Global Cyberpunk Effects */}
+        <div className="cyber-background" />
+        <div className="scanlines" />
+        
+        {/* Actual Page Content */}
+        {children}
       </body>
     </html>
-  );
+  )
 }

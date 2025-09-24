@@ -1,107 +1,116 @@
 @import "tailwindcss";
 
-
-/* --- Custom theme tweaks (optional) --- */
-:root{
-  --blood-red: #8b0000;
-  --blood-red-700: #7b0000;
-  --grid-dark: rgba(139,0,0,0.08);
-  --grid-light: rgba(255,0,0,0.04);
+/* ==== GLOBAL STYLING ==== */
+body {
+  margin: 0;
+  background-color: #0D0D0D;
+  overflow-x: hidden;
+  font-family: 'Orbitron', monospace;
+  color: #fff;
 }
 
-/* make sure body stretches */
-html, body, #__next {
+/* Root scrolling behavior and prevent horizontal overflow */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* ==== CYBERPUNK GRID BACKGROUND ==== */
+.cyber-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
+  z-index: -10;
+  background: radial-gradient(circle, #ff1e1e88 1px, transparent 1px),
+              radial-gradient(circle, #ff1e1e88 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: moveGrid 2s linear infinite;
 }
 
-/* ------------------------------
-   Moving grid background
-   - Two layered pseudo-gradients for depth
-   - pointer-events: none so it never blocks clicks
-   - placed as fixed/fill and sits under app content
-   ------------------------------ */
-.moving-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;            /* sit below content */
-  pointer-events: none;  /* never intercept clicks */
-  overflow: hidden;
+@keyframes moveGrid {
+  0% {
+    background-position: 0 0, 20px 20px;
+  }
+  100% {
+    background-position: 40px 40px, 60px 60px;
+  }
 }
 
-/* two layers using ::before and ::after */
-.moving-grid::before,
-.moving-grid::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  display: block;
-  mix-blend-mode: normal;
-  opacity: 1;
-}
-
-/* coarse grid (larger squares) */
-.moving-grid::before {
-  background-image:
-    linear-gradient(to right, var(--grid-dark) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-dark) 1px, transparent 1px);
-  background-size: 64px 64px; /* grid spacing */
-  background-position: 0 0, 0 0;
-  animation: moveGridA 16s linear infinite;
-  transform: translateZ(0); /* GPU accel */
-  filter: drop-shadow(0 0 0 rgba(0,0,0,0));
-}
-
-/* fine grid (smaller squares, slower / different direction) */
-.moving-grid::after {
-  background-image:
-    linear-gradient(to right, var(--grid-light) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-light) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 0;
-  animation: moveGridB 28s linear infinite;
-  transform: translateZ(0);
-}
-
-/* subtle vignette so corners are darker */
-.grid-vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 1; /* sits above the grid but below main content */
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);
+/* ==== SCANLINES ==== */
+.scanlines {
   pointer-events: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 0, 0, 0.04) 0,
+    rgba(255, 0, 0, 0.04) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  z-index: 20;
 }
 
-/* animate background positions */
-/* Each animation moves both gradient layers by different offsets (comma separated) */
-@keyframes moveGridA {
-  from {
-    background-position: 0px 0px, 0px 0px;
+/* ==== NEON GLOW ==== */
+.neon-glow {
+  text-shadow: 0 0 10px #ff1e1e, 0 0 20px #ff1e1eaa;
+}
+
+/* ==== INPUTS ==== */
+.cyber-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #ff1e1e;
+  color: #fff;
+  font-family: monospace;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.cyber-input:focus {
+  border-color: #ff1e1e;
+  box-shadow: 0 0 10px #ff1e1e;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ==== BUTTON ==== */
+.cyber-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff1e1e, #8b0000);
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+  font-family: 'Orbitron', monospace;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 0 20px #ff1e1e33;
+}
+
+.cyber-button:hover {
+  animation: pulse-glow 1s infinite;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px #ff1e1e, 0 0 20px #ff1e1e88;
   }
-  to {
-    /* moves one direction for vertical+horizontal pair */
-    background-position: 240px 240px, -240px -240px;
+  50% {
+    box-shadow: 0 0 20px #ff1e1e, 0 0 40px #ff1e1eaa;
+  }
+  100% {
+    box-shadow: 0 0 10px #ff1e1e, 0 0 20px #ff1e1e88;
   }
 }
 
-@keyframes moveGridB {
-  from {
-    background-position: 0px 0px, 0px 0px;
-  }
-  to {
-    background-position: -120px 120px, 120px -120px;
-  }
-}
-
-/* Ensure page content sits above the grid: use a helper */
-.with-grid-content {
-  position: relative;
-  z-index: 10; /* above grid + vignette */
-}
-
-/* small helper for semi-transparent panels that look good on grid */
-.panel-on-grid {
-  background-color: rgba(12, 12, 12, 0.6); /* semi-transparent black */
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(139,0,0,0.18);
+/* ==== COUNTDOWN FONT ==== */
+.countdown {
+  font-family: 'Share Tech Mono', monospace;
 }
