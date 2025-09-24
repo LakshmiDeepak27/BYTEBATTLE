@@ -16,10 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Custom Font for cyberpunk effect */}
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
-      </head>
+      <head />
       <body className={orbitron.className}>
         {/* Global Cyberpunk Effects */}
         <div className="cyber-background" />
