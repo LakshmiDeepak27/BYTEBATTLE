@@ -49,7 +49,7 @@ export default function HomePage() {
 
   return (
     <div
-      className="relative min-h-screen bg-black overflow-x-hidden flex flex-col items-center p-6"
+      className="relative min-h-screen bg-black overflow-x-hidden flex flex-col items-center p-4 md:p-6"
       onMouseMove={handleMouseMove}
       style={{ "--mouse-x": `${mousePos.x}px`, "--mouse-y": `${mousePos.y}px` } as React.CSSProperties}
     >
@@ -63,19 +63,19 @@ export default function HomePage() {
 
       <Navbar />
 
-      <div className="relative flex flex-col items-center w-full z-10 mt-12">
-        <h2 className="text-2xl md:text-4xl font-bold text-red-400 tracking-wider mb-3 text-center animate-pulse">
+      <div className="relative flex flex-col items-center w-full z-10 mt-4">
+        <h2 className="text-xl md:text-3xl font-bold text-red-400 tracking-wider mb-2 text-center animate-pulse">
           Registration Starts In
         </h2>
 
-        <div className="flex">
+        <div className="flex mb-4">
           {timeBox(days, "Days")}
           {timeBox(hours, "Hours")}
           {timeBox(minutes, "Minutes")}
           {timeBox(seconds, "Seconds")}
         </div>
 
-        <div className="w-full max-w-4xl -mt-11">
+        <div className="w-full max-w-4xl">
           <HeroSection />
         </div>
 

@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="py-20 flex flex-col items-center text-center gap-6">
-      <div className="max-w-4xl w-full panel-on-grid rounded-3xl p-10">
+    <section className="py-8 md:py-12 flex flex-col items-center text-center gap-4">
+      <div className="max-w-4xl w-full panel-on-grid rounded-3xl p-6 md:p-8">
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-red-600 hover:scale-105 transition-transform duration-300 hover:drop-shadow-[0_0_8px_rgba(255,30,30,0.5)] cursor-pointer">
           Byte Battle — Code to Conquer
         </h1>
@@ -29,7 +29,7 @@ export default function HeroSection() {
           </a>
         </div>
 
-        <div className="mt-8 text-left text-gray-300">
+        <div id="about" className="mt-8 text-left text-gray-300">
           <h3 className="text-xl font-semibold text-red-600 mb-2">About Byte Battle</h3>
           <p className="mb-4">
             Byte Battle is a thrilling coding contest designed to challenge your problem-solving skills, sharpen your programming abilities, and ignite your passion for innovation.

@@ -12,28 +12,31 @@ export default function Navbar() {
 
   return (
     <nav className="w-full bg-transparent backdrop-blur-md sticky top-0 z-50 border-b border-red-900/30">
-      <div className="max-w-7xl mx-auto px-6 h-22 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-22 flex items-center justify-between relative">
 
         {/* Logo scrolls to top of page.tsx content */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-4 h-full -ml-8 text-2xl md:text-3xl font-bold font-mono text-red-600 hover:text-red-600 transition-colors"
+          className="flex items-center gap-2 sm:gap-4 h-full -ml-2 sm:-ml-8 text-lg sm:text-2xl md:text-3xl font-bold font-mono text-red-600 hover:text-red-600 transition-colors"
         >
           {/* BB Icon */}
           <img
             src="/bb-logo.jpg"
             alt="BB"
-            className="h-22 w-auto rounded-full object-contain"
+            className="h-12 sm:h-16 md:h-22 w-auto rounded-full object-contain"
           />
 
-          <span style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
+          <span className="hidden sm:inline" style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
             BYTE BATTLE
+          </span>
+          <span className="sm:hidden text-sm" style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
+            BB
           </span>
         </button>
 
         {/* Hamburger - mobile only */}
         <button
-          className="md:hidden p-2 rounded-lg border border-red-900/40 text-red-200 hover:bg-red-900/30"
+          className="md:hidden p-2 rounded-lg border border-red-900/40 text-red-200 hover:bg-red-900/30 bg-black/20 backdrop-blur-sm"
           aria-label="Toggle navigation menu"
           onClick={() => setIsOpen((v) => !v)}
         >
@@ -59,10 +62,10 @@ export default function Navbar() {
         </div>
 
         {/* Register Button */}
-        <div className="flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-4">
           <button
             onClick={() => handleScroll("register")}
-            className="px-6 py-2 rounded-lg font-mono font-bold text-white transition-all duration-300 hover:scale-105"
+            className="px-4 sm:px-6 py-2 rounded-lg font-mono font-bold text-white transition-all duration-300 hover:scale-105 text-sm sm:text-base"
             style={{
               background: "linear-gradient(45deg, #FF1E1E, #CC0000)",
               border: "1px solid #FF1E1E",
@@ -86,12 +89,23 @@ export default function Navbar() {
       {/* Mobile dropdown panel - overlays, does not push layout */}
       {isOpen && (
         <div className="md:hidden absolute left-0 right-0 top-full bg-black/90 backdrop-blur border-b border-red-900/40 z-40">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-3 text-red-100 font-semibold">
-            <button onClick={() => { setIsOpen(false); handleScroll("about"); }} className="text-left py-2">About</button>
-            <button onClick={() => { setIsOpen(false); handleScroll("rules"); }} className="text-left py-2">Rules & Regulations</button>
-            <button onClick={() => { setIsOpen(false); handleScroll("event"); }} className="text-left py-2">Event Info</button>
-            <button onClick={() => { setIsOpen(false); handleScroll("organisers"); }} className="text-left py-2">Organisers</button>
-            <button onClick={() => { setIsOpen(false); handleScroll("register"); }} className="mt-2 py-2 text-left">Register</button>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-3 text-red-100 font-semibold">
+            <button onClick={() => { setIsOpen(false); handleScroll("about"); }} className="text-left py-2 hover:text-red-50 transition-colors">About</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("rules"); }} className="text-left py-2 hover:text-red-50 transition-colors">Rules & Regulations</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("event"); }} className="text-left py-2 hover:text-red-50 transition-colors">Event Info</button>
+            <button onClick={() => { setIsOpen(false); handleScroll("organisers"); }} className="text-left py-2 hover:text-red-50 transition-colors">Organisers</button>
+            <button 
+              onClick={() => { setIsOpen(false); handleScroll("register"); }} 
+              className="mt-2 py-3 px-4 text-center font-mono font-bold text-white rounded-lg transition-all duration-300"
+              style={{
+                background: "linear-gradient(45deg, #FF1E1E, #CC0000)",
+                border: "1px solid #FF1E1E",
+                boxShadow: "0 0 12px rgba(255, 30, 30, 0.4)",
+                textShadow: "0 0 8px #000",
+              }}
+            >
+              REGISTER NOW
+            </button>
           </div>
         </div>
       )}

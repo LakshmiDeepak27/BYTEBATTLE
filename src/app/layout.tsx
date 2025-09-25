@@ -7,6 +7,7 @@ const orbitron = Orbitron({ subsets: ['latin'], weight: ['600'] })
 export const metadata: Metadata = {
   title: 'BYTE BATTLE',
   description: 'Cyberpunk Coding Contest Registration',
+  viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({
