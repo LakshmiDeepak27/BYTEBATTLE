@@ -114,3 +114,44 @@ html {
 .countdown {
   font-family: 'Share Tech Mono', monospace;
 }
+
+/* ==== MOBILE RESPONSIVENESS ==== */
+@media (max-width: 640px) {
+  .cyber-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .cyber-button {
+    font-size: 14px;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Improve touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better spacing for mobile */
+  .panel-on-grid {
+    margin: 0.5rem;
+  }
+}
+
+/* ==== MOBILE NAVBAR IMPROVEMENTS ==== */
+@media (max-width: 768px) {
+  .navbar-mobile {
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-logo {
+    font-size: 0.875rem;
+  }
+}
+
+/* ==== IMPROVED MOBILE GRID ==== */
+@media (max-width: 640px) {
+  .cyber-background {
+    background-size: 20px 20px;
+  }
+}

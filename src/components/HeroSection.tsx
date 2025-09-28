@@ -29,25 +29,6 @@ export default function HeroSection() {
           </a>
         </div>
 
-        <div id="about" className="mt-8 text-left text-gray-300">
-          <h3 className="text-xl font-semibold text-red-600 mb-2">About Byte Battle</h3>
-          <p className="mb-4">
-            Byte Battle is a thrilling coding contest designed to challenge your problem-solving skills, sharpen your programming abilities, and ignite your passion for innovation.
-            This is your arena to compete with peers, push your limits, and transform ideas into solutions.
-          </p>
-          <p className="mb-4">
-            Whether you are a beginner or an experienced coder, Byte Battle encourages creativity, critical thinking, and perseverance.
-            Join us to experience the excitement of real-time coding challenges, showcase your talent, and learn from the brightest minds.
-          </p>
-          <ul className="list-disc ml-6 space-y-1">
-            <li>Open to all students with a passion for coding</li>
-            <li>Encourages individual participation and teamwork</li>
-            <li>Real-world algorithmic challenges to test your logic and speed</li>
-            <li>Recognition and prizes for top performers</li>
-            <li>A platform to learn, grow, and network with fellow coders</li>
-          </ul>
-        </div>
-
       </div>
     </section>
   );

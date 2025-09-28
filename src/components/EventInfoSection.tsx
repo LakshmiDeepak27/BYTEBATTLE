@@ -1,20 +1,51 @@
 export default function EventInfoSection() {
   return (
-    <section id="event" className="w-full max-w-5xl mt-6 scroll-mt-20">
-      <div className="panel-on-grid rounded-3xl p-8 border border-red-900/40 bg-black/60 backdrop-blur">
-        <h3 className="text-3xl font-extrabold text-red-500 mb-3">Event Info</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-red-100/90">
-          <div>
-            <div className="text-red-400 font-semibold">Date</div>
-            <div>To be announced</div>
+    <section id="event" className="w-full max-w-5xl mt-4 sm:mt-6 scroll-mt-20">
+      <div className="panel-on-grid rounded-3xl p-6 md:p-8 shadow-xl border border-red-900/30">
+        <h3 className="text-3xl md:text-4xl font-extrabold text-red-600 mb-6 hover:scale-105 transition-transform duration-300 hover:drop-shadow-[0_0_8px_rgba(255,30,30,0.5)] cursor-pointer">
+          Event Information
+        </h3>
+        
+        <div className="space-y-6 text-gray-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="bg-black rounded-2xl p-4 border border-white-800">
+                <h4 className="text-xl font-semibold text-red-500 mb-2">📅 Date & Time</h4>
+                <p className="text-base md:text-lg">To be announced soon</p>
+                <p className="text-sm text-gray-400 mt-1">Stay tuned for updates</p>
+              </div>
+              
+              <div className="bg-black rounded-2xl p-4 border border-white-800">
+                <h4 className="text-xl font-semibold text-red-500 mb-2">📍 Venue</h4>
+                <p className="text-base md:text-lg">Main Auditorium</p>
+                <p className="text-sm text-gray-400 mt-1">Campus location TBA</p>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-black rounded-2xl p-4 border border-white-800">
+                <h4 className="text-xl font-semibold text-red-500 mb-2">🏆 Format</h4>
+                <p className="text-base md:text-lg">Multiple rounds, increasing difficulty</p>
+                <p className="text-sm text-gray-400 mt-1">Algorithmic challenges</p>
+              </div>
+              
+              <div className="bg-black rounded-2xl p-4 border border-white-800">
+                <h4 className="text-xl font-semibold text-red-500 mb-2">⏱️ Duration</h4>
+                <p className="text-base md:text-lg">Full day event</p>
+                <p className="text-sm text-gray-400 mt-1">Lunch and breaks included</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <div className="text-red-400 font-semibold">Venue</div>
-            <div>Main auditorium</div>
-          </div>
-          <div>
-            <div className="text-red-400 font-semibold">Format</div>
-            <div>Multiple rounds, increasing difficulty</div>
+          
+          <div className="rounded-2xl p-6 border border-white">
+            <h4 className="text-xl font-semibold text-red-500 mb-4">🎯 What to Expect</h4>
+            <ul className="list-disc ml-6 space-y-2 text-base md:text-lg">
+              <li>Challenging algorithmic problems of varying difficulty</li>
+              <li>Real-time leaderboard updates</li>
+              <li>Networking opportunities with fellow coders</li>
+              <li>Prizes and recognition for top performers</li>
+              <li>Learning sessions and coding tips from experts</li>
+            </ul>
           </div>
         </div>
       </div>

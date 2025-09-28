@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import HeroSection from "../components/HeroSection";
-import AboutSection from "../components/AboutSection";
+import About from "@/components/AboutSection";
 import RulesSection from "../components/RulesSection";
 import EventInfoSection from "../components/EventInfoSection";
 import OrganisersSection from "../components/OrganisersSection";
@@ -12,16 +12,31 @@ export default function HomePage() {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+  // ✅ Set persistent 1-day countdown
   useEffect(() => {
-    const deadline = new Date().getTime() + 3 * 24 * 60 * 60 * 1000;
+    let deadline = localStorage.getItem("deadline");
+    if (!deadline) {
+      const newDeadline = new Date().getTime() + 24 * 60 * 60 * 1000; // 1 day from first visit
+      localStorage.setItem("deadline", newDeadline.toString());
+      deadline = newDeadline.toString();
+    }
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
-      const distance = deadline - now;
+      const distance = parseInt(deadline!) - now;
       setTimeLeft(distance > 0 ? distance : 0);
     }, 1000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  // Global mouse move listener
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleGlobalMouseMove);
+    return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
   }, []);
 
   const formatTimeUnits = (ms: number) => {
@@ -36,15 +51,14 @@ export default function HomePage() {
   const { days, hours, minutes, seconds } = formatTimeUnits(timeLeft);
 
   const timeBox = (value: number, label: string) => (
-    <div className="flex flex-col items-center justify-center bg-red-900/40 border border-red-600 backdrop-blur-md rounded-2xl w-20 md:w-28 h-20 md:h-28 mx-2 p-2 animate-pulse hover:scale-105 transition-transform duration-300 shadow-lg shadow-red-700/80">
-      <span className="text-2xl md:text-4xl font-extrabold text-red-50">{value}</span>
-      <span className="text-xs md:text-sm text-red-200 uppercase mt-1">{label}</span>
+    <div className="flex flex-col items-center justify-center bg-red-900/40 border border-red-600 backdrop-blur-md rounded-2xl w-16 sm:w-20 md:w-28 h-16 sm:h-20 md:h-28 mx-1 sm:mx-2 p-2 animate-pulse hover:scale-105 transition-transform duration-300 shadow-lg shadow-red-700/80">
+      <span className="text-lg sm:text-2xl md:text-4xl font-extrabold text-red-50">{value}</span>
+      <span className="text-xs sm:text-xs md:text-sm text-red-200 uppercase mt-1">{label}</span>
     </div>
   );
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    setMousePos({ x: e.clientX, y: e.clientY });
   };
 
   return (
@@ -53,22 +67,21 @@ export default function HomePage() {
       onMouseMove={handleMouseMove}
       style={{ "--mouse-x": `${mousePos.x}px`, "--mouse-y": `${mousePos.y}px` } as React.CSSProperties}
     >
-      {/* Full-page Grid pinned to viewport */}
+      {/* Full-page Grid */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="full-grid"></div>
         <div className="full-grid overlay"></div>
-        {/* Subtle pointer effect */}
         <div className="pointer-glow"></div>
       </div>
 
       <Navbar />
 
-      <div className="relative flex flex-col items-center w-full z-10 mt-4">
-        <h2 className="text-xl md:text-3xl font-bold text-red-400 tracking-wider mb-2 text-center animate-pulse">
+      <div className="relative flex flex-col items-center w-full z-10 mt-10">
+        <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-red-400 tracking-wider mb-2 text-center animate-pulse px-4">
           Registration Starts In
         </h2>
 
-        <div className="flex mb-4">
+        <div className="flex flex-wrap justify-center mb-4 px-2">
           {timeBox(days, "Days")}
           {timeBox(hours, "Hours")}
           {timeBox(minutes, "Minutes")}
@@ -79,7 +92,7 @@ export default function HomePage() {
           <HeroSection />
         </div>
 
-        <AboutSection />
+        <About />
         <RulesSection />
         <EventInfoSection />
         <OrganisersSection />
@@ -105,12 +118,15 @@ export default function HomePage() {
           animation: moveGridOverlay 12s linear infinite;
         }
 
-        /* Subtle intensification near pointer */
-        .pointer-glow {
-          position: absolute;
-          inset: 0;
+            .pointer-glow {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
           pointer-events: none;
-          background: radial-gradient(circle 110px at var(--mouse-x) var(--mouse-y), rgba(255,30,30,0.22), transparent 70%);
+          background: radial-gradient(circle 150px at var(--mouse-x) var(--mouse-y), rgba(255,30,30,0.3), transparent 60%);
+          z-index: 1;
         }
 
         @keyframes moveGrid {

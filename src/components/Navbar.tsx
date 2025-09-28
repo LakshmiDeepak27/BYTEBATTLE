@@ -23,14 +23,11 @@ export default function Navbar() {
           <img
             src="/bb-logo.jpg"
             alt="BB"
-            className="h-12 sm:h-16 md:h-22 w-auto rounded-full object-contain"
+            className="h-22 sm:h-16 md:h-22 w-auto rounded-full object-contain"
           />
 
-          <span className="hidden sm:inline" style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
+          <span className="text-sm sm:text-lg md:text-2xl lg:text-3xl" style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
             BYTE BATTLE
-          </span>
-          <span className="sm:hidden text-sm" style={{ textShadow: "0 0 10px #FF1E1E", pointerEvents: "none" }}>
-            BB
           </span>
         </button>
 
