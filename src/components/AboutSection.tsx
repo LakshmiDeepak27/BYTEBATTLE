@@ -36,7 +36,7 @@ export default function About() {
           <div className="rounded-2xl p-6 border border-white">
             <ul className="list-disc ml-6 space-y-2 text-base md:text-lg">
               <li>Open to all students with a passion for coding</li>
-              <li>Encourages individual participation and teamwork</li>
+              <li>Encourages individual participation </li>
               <li>Real-world algorithmic challenges to test your logic and speed</li>
               <li>Recognition and prizes for top performers</li>
               <li>A platform to learn, grow, and network with fellow coders</li>

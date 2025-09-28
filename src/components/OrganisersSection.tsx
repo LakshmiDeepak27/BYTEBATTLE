@@ -10,7 +10,7 @@ export default function OrganisersSection() {
     { name: "Hemanth B", role: "Problem Tester", image: "/organisers/Hemanth_B.jpg" },
     { name: "Supriya", role: "Problem Tester", image: "/organisers/Supriya.jpg" },
     { name: "Manoj", role: "Platform Manager", image: "/organisers/Manoj.jpg" },
-        { name: "Deepak", role: "Technical Head", image: "/organisers/deepak.png" },
+    { name: "Deepak", role: "Technical Head", image: "/organisers/deepak.png" },
     { name: "Chaturva", role: "Technical Support", image: "/organisers/Chaturva.jpg" },
     { name: "Dhanya", role: "Technical Support", image: "/organisers/Dhanya.jpg" },
     { name: "Thanmayi", role: "Operations Logistics", image: "/organisers/Thanmayi.jpg" },
@@ -71,14 +71,17 @@ export default function OrganisersSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-3">📧 Contact Information</h4>
-              <p className="text-base">Email: contact@bytebattle.com</p>
-              <p className="text-base">Phone: Coming Soon</p>
-              <p className="text-sm text-gray-400 mt-2">We&apos;ll update contact details soon</p>
+              <p className="text-base">Email: <a
+                href="mailto:chaturva2005@gmail.com"
+                className="text-red-500 font-semibold hover:underline"
+              >chaturva2005@gmail.com</a></p>
+              <p className="text-base">Phone: <span className="text-red-500">6281856189</span></p>
             </div>
 
             <div className="bg-black rounded-2xl p-4 border border-white">
-              <h4 className="text-lg font-semibold text-red-500 mb-3">🌐 Follow Us</h4>
-              <p className="text-base">Social media links coming soon</p>
+              <h4 className="text-lg font-semibold text-red-500 mb-3">🌐 Follow Us on</h4>
+              <p className="text-base">Instagram : <span ><a className="text-green-500 font-semibold hover:underline" href="https://www.instagram.com/byte_battle2025?igsh=ZHY3OTdvdzQ1aXhk&utm_source=ig_contact_invite" target="_blank">BYTE-BATTLE</a></span></p>
+              <p className="text-base">WhatsApp: <span><a className="text-green-500 font-semibold hover:underline" href="https://chat.whatsapp.com/BoGcnkYtrl0G130KfXG742?mode=ems_wa_t" target="_blank">Join WhatsApp</a></span></p>
               <p className="text-sm text-gray-400 mt-2">Stay connected for updates</p>
             </div>
           </div>

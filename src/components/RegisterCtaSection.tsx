@@ -15,15 +15,16 @@ export default function RegisterCtaSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🏆 Prizes</h4>
-              <p className="text-sm">Exciting rewards for winners</p>
+              <p className="text-lg">The top three winners will receive <span className="text-green-500"> free CodeChef Premium subscription</span> along with a <span className="text-red-500">share of the ₹10,000 prize pool</span>.
+</p>
             </div>
             <div className="bg-black rounded-2xl p-4 border border-white">
-              <h4 className="text-lg font-semibold text-red-500 mb-2">📚 Learning</h4>
-              <p className="text-sm">Grow your coding skills</p>
+              <h4 className="text-lg font-semibold text-red-500 mb-2">📚 Benifits</h4>
+              <p className="text-lg">All participants will receive a participation certificate from CodeChef and a 40% discount on CodeChef courses.</p>
             </div>
             <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🤝 Network</h4>
-              <p className="text-sm">Connect with fellow coders</p>
+              <p className="text-lg">Connect with fellow coders</p>
             </div>
           </div>
           
@@ -36,7 +37,7 @@ export default function RegisterCtaSection() {
             </a>
             
             <p className="text-sm text-gray-400">
-              Registration is completely free • Limited spots available • Don&apos;t miss out!
+              Limited spots available • Don&apos;t miss out!
             </p>
           </div>
         </div>

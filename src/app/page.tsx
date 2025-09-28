@@ -76,7 +76,7 @@ export default function HomePage() {
 
       <Navbar />
 
-      <div className="relative flex flex-col items-center w-full z-10 mt-10">
+      <div className="relative flex flex-col items-center w-full z-10 mt-18">
         <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-red-400 tracking-wider mb-2 text-center animate-pulse px-4">
           Registrations Started!
         </h2>
