@@ -296,10 +296,15 @@ export async function POST(req: NextRequest) {
     // Return user-friendly error messages
     const err = error instanceof Error ? error.message : "Unknown error";
     
-    // Don't expose internal errors to users
-    const userMessage = err.includes("Database error") || err.includes("Failed to generate")
-      ? "Registration temporarily unavailable. Please try again in a few moments."
-      : err;
+    // Show specific error messages to users, only hide truly internal errors
+    let userMessage = err;
+    
+    // Only show generic message for actual system failures
+    if (err.includes("Failed to generate unique code after 50 attempts")) {
+      userMessage = "Registration temporarily unavailable. Please try again in a few moments.";
+    } else if (err.includes("Database error") && !err.includes("Duplicate") && !err.includes("constraint")) {
+      userMessage = "Registration temporarily unavailable. Please try again in a few moments.";
+    }
 
     return NextResponse.json({ 
       message: userMessage,
