@@ -44,9 +44,13 @@ export async function POST(req: NextRequest) {
   try {
     // Enhanced rate limiting with new system
     const ip = getClientIP(req);
+    const userAgent = req.headers.get("user-agent") || "unknown";
+    console.log(`Registration attempt from IP: ${ip}, User-Agent: ${userAgent}`);
+    
     const rateLimitResult = rateLimiters.registration(ip);
     
     if (!rateLimitResult.allowed) {
+      console.log(`Rate limit exceeded for IP: ${ip}`);
       return NextResponse.json(
         { message: rateLimitResult.message }, 
         { 
@@ -69,15 +73,18 @@ export async function POST(req: NextRequest) {
     }
 
     const contentType = req.headers.get("content-type") || "";
+    console.log(`Content-Type: ${contentType}`);
     let name: string, usn: string, branch: string, language: "C" | "C++" | "Python" | "Java";
     let phone: string, email: string, notes: string | null = null;
     let paymentScreenshot: File | null = null;
 
     if (contentType.includes("application/json")) {
+      console.log("Parsing JSON request");
       const body = await req.json();
       ({ name, usn, branch, language, phone, email } = body);
       notes = body.notes ?? null;
     } else {
+      console.log("Parsing FormData request");
       const formData = await req.formData();
       name = formData.get("name") as string;
       usn = formData.get("usn") as string;
@@ -88,6 +95,8 @@ export async function POST(req: NextRequest) {
       notes = (formData.get("notes") as string) || null;
       paymentScreenshot = (formData.get("paymentScreenshot") as File) || null;
     }
+
+    console.log("Parsed data:", { name, usn, branch, language, phone, email, hasFile: !!paymentScreenshot });
 
     // Enhanced input validation using security library
     const validation = validateRegistrationInput({
@@ -101,9 +110,11 @@ export async function POST(req: NextRequest) {
     });
 
     if (!validation.valid) {
+      console.log("Validation failed:", validation.errors);
+      // For mobile debugging, return specific validation errors instead of generic message
       return NextResponse.json(
         { 
-          message: "Validation failed", 
+          message: validation.errors.join(", "), 
           errors: validation.errors 
         }, 
         { 
@@ -179,6 +190,24 @@ export async function POST(req: NextRequest) {
         console.log("Attempting upload to bucket:", bucket);
         console.log("File name:", fileName);
 
+        // Check if bucket exists, create if it doesn't
+        const { data: buckets } = await supabaseServer.storage.listBuckets();
+        const bucketExists = buckets?.some(b => b.name === bucket);
+        
+        if (!bucketExists) {
+          console.log(`Creating storage bucket: ${bucket}`);
+          const { error: createError } = await supabaseServer.storage.createBucket(bucket, {
+            public: true,
+            allowedMimeTypes: ['image/jpeg', 'image/png'],
+            fileSizeLimit: 3 * 1024 * 1024 // 3MB
+          });
+          
+          if (createError) {
+            console.error("Failed to create bucket:", createError);
+            throw new Error("Storage configuration error. Please contact support.");
+          }
+        }
+
         const { error: uploadError } = await supabaseServer.storage
           .from(bucket)
           .upload(fileName, fileBuffer, { 
@@ -212,15 +241,9 @@ export async function POST(req: NextRequest) {
         console.log("Screenshot uploaded successfully:", screenshotUrl);
       } catch (uploadErr) {
         console.error("File upload error:", uploadErr);
-        
-        // For now, allow registration without file upload but mark as unpaid
-        console.log("File upload failed, proceeding with registration as unpaid");
-        screenshotUrl = null;
-        
-        // Uncomment the line below to block registration if file upload fails
-        // return NextResponse.json({ 
-        //   message: uploadErr instanceof Error ? uploadErr.message : "File upload failed. Please try again or contact support." 
-        // }, { status: 500 });
+        return NextResponse.json({ 
+          message: uploadErr instanceof Error ? uploadErr.message : "File upload failed. Please try again or contact support." 
+        }, { status: 500 });
       }
     } else {
       console.log("No payment screenshot provided");
@@ -286,28 +309,24 @@ export async function POST(req: NextRequest) {
     // Enhanced error logging
     const timestamp = new Date().toISOString();
     const errorId = Math.random().toString(36).substring(2, 8);
+    const userAgent = req.headers.get("user-agent") || "unknown";
     
     console.error(`[${timestamp}] Registration Error [${errorId}]:`, {
       error: error instanceof Error ? error.message : "Unknown error",
       stack: error instanceof Error ? error.stack : undefined,
-      ip: req.headers.get("x-forwarded-for") || "unknown"
+      ip: req.headers.get("x-forwarded-for") || "unknown",
+      userAgent: userAgent,
+      isMobile: userAgent.toLowerCase().includes("mobile") || userAgent.toLowerCase().includes("android") || userAgent.toLowerCase().includes("iphone")
     });
 
     // Return user-friendly error messages
     const err = error instanceof Error ? error.message : "Unknown error";
     
-    // Show specific error messages to users, only hide truly internal errors
-    let userMessage = err;
-    
-    // Only show generic message for actual system failures
-    if (err.includes("Failed to generate unique code after 50 attempts")) {
-      userMessage = "Registration temporarily unavailable. Please try again in a few moments.";
-    } else if (err.includes("Database error") && !err.includes("Duplicate") && !err.includes("constraint")) {
-      userMessage = "Registration temporarily unavailable. Please try again in a few moments.";
-    }
+    // For debugging, show the actual error message to see what's happening
+    console.log(`Returning error message: "${err}" for mobile: ${userAgent.toLowerCase().includes("mobile")}`);
 
     return NextResponse.json({ 
-      message: userMessage,
+      message: err, // Show actual error for debugging
       errorId: errorId // Include error ID for support
     }, { 
       status: 500,
