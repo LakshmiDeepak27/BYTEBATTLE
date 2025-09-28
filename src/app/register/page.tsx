@@ -47,13 +47,19 @@ export default function RegisterPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    console.log("File selected:", {
+      name: file.name,
+      size: file.size,
+      type: file.type
+    });
+
     if (!allowedTypes.includes(file.type)) {
-      alert("Only JPG or PNG images allowed.");
+      setMessage("Only JPG or PNG images allowed.");
       return;
     }
 
     if (file.size > maxFileSize) {
-      alert("File too large. Max 3MB.");
+      setMessage("File too large. Maximum size is 3MB.");
       return;
     }
 
@@ -64,6 +70,7 @@ export default function RegisterPage() {
 
     setQrFile(file);
     setQrPreview(URL.createObjectURL(file));
+    setMessage(""); // Clear any previous messages
   };
 
   // Cleanup effect to prevent memory leaks
@@ -113,22 +120,29 @@ export default function RegisterPage() {
       if (form.notes) formData.append("notes", form.notes);
       if (qrFile) formData.append("paymentScreenshot", qrFile);
 
+      console.log("Submitting registration with file:", qrFile?.name);
+
       const res = await fetch("/api/register", {
         method: "POST",
         body: formData,
       });
 
       const data = await res.json();
-      setMessage(data.message || "Something went wrong.");
+      console.log("Registration response:", data);
 
       if (res.ok) {
         // Use the code from the response (now included directly)
         const code = data.code || data.user?.code || "";
-        router.push(`/success?code=${code}`);
+        setMessage("Registration successful! Redirecting...");
+        setTimeout(() => {
+          router.push(`/success?code=${code}`);
+        }, 1000);
+      } else {
+        setMessage(data.message || "Registration failed. Please try again.");
       }
     } catch (err) {
-      console.error(err);
-      setMessage("Network failed. Try again.");
+      console.error("Registration error:", err);
+      setMessage("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }

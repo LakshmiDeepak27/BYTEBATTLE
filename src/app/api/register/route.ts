@@ -145,6 +145,11 @@ export async function POST(req: NextRequest) {
     if (paymentScreenshot) {
       try {
         console.log("Payment screenshot provided, uploading...");
+        console.log("File details:", {
+          name: paymentScreenshot.name,
+          size: paymentScreenshot.size,
+          type: paymentScreenshot.type
+        });
         
         // Enhanced file validation using security library
         if (!isValidFileSize(paymentScreenshot.size)) {
@@ -171,6 +176,9 @@ export async function POST(req: NextRequest) {
         const fileName = `payments/${timestamp}-${randomId}-${paymentScreenshot.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
         const bucket = process.env.SUPABASE_PAYMENT_BUCKET || "payment-screenshots";
 
+        console.log("Attempting upload to bucket:", bucket);
+        console.log("File name:", fileName);
+
         const { error: uploadError } = await supabaseServer.storage
           .from(bucket)
           .upload(fileName, fileBuffer, { 
@@ -179,22 +187,40 @@ export async function POST(req: NextRequest) {
           });
 
         if (uploadError) {
-          console.error("Upload error:", uploadError);
-          const hint = uploadError.message?.toLowerCase().includes("not found")
-            ? `Storage bucket '${bucket}' not found. Create it in Supabase Storage and set it to Public.`
-            : uploadError.message?.toLowerCase().includes("already exists")
-            ? "File with this name already exists. Please try again."
-            : "File upload failed. Please try again.";
-          throw new Error(hint);
+          console.error("Upload error details:", {
+            message: uploadError.message,
+            error: uploadError
+          });
+          
+          // More specific error messages
+          let errorMessage = "File upload failed. Please try again.";
+          
+          if (uploadError.message?.toLowerCase().includes("not found")) {
+            errorMessage = "Storage configuration error. Please contact support.";
+          } else if (uploadError.message?.toLowerCase().includes("already exists")) {
+            errorMessage = "File with this name already exists. Please try again.";
+          } else if (uploadError.message?.toLowerCase().includes("permission")) {
+            errorMessage = "Upload permission denied. Please contact support.";
+          } else if (uploadError.message?.toLowerCase().includes("size")) {
+            errorMessage = "File too large. Please compress the image and try again.";
+          }
+          
+          throw new Error(errorMessage);
         }
 
         screenshotUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${fileName}`;
         console.log("Screenshot uploaded successfully:", screenshotUrl);
       } catch (uploadErr) {
         console.error("File upload error:", uploadErr);
-        return NextResponse.json({ 
-          message: uploadErr instanceof Error ? uploadErr.message : "File upload failed" 
-        }, { status: 500 });
+        
+        // For now, allow registration without file upload but mark as unpaid
+        console.log("File upload failed, proceeding with registration as unpaid");
+        screenshotUrl = null;
+        
+        // Uncomment the line below to block registration if file upload fails
+        // return NextResponse.json({ 
+        //   message: uploadErr instanceof Error ? uploadErr.message : "File upload failed. Please try again or contact support." 
+        // }, { status: 500 });
       }
     } else {
       console.log("No payment screenshot provided");
