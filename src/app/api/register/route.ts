@@ -42,6 +42,31 @@ async function generateUniqueCode(): Promise<number> {
 
 export async function POST(req: NextRequest) {
   try {
+    // Check environment variables first
+    const requiredEnvVars = {
+      NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+      SUPABASE_PAYMENT_BUCKET: process.env.SUPABASE_PAYMENT_BUCKET,
+    };
+    
+    const missingVars = Object.entries(requiredEnvVars)
+      .filter(([, value]) => !value)
+      .map(([key]) => key);
+    
+    if (missingVars.length > 0) {
+      console.error("Missing environment variables:", missingVars);
+      return NextResponse.json(
+        { 
+          message: "Server configuration error. Please contact support.",
+          errorId: "ENV_MISSING"
+        }, 
+        { 
+          status: 500,
+          headers: SECURITY_HEADERS
+        }
+      );
+    }
+
     // Enhanced rate limiting with new system
     const ip = getClientIP(req);
     const userAgent = req.headers.get("user-agent") || "unknown";
@@ -191,7 +216,13 @@ export async function POST(req: NextRequest) {
         console.log("File name:", fileName);
 
         // Check if bucket exists, create if it doesn't
-        const { data: buckets } = await supabaseServer.storage.listBuckets();
+        const { data: buckets, error: listError } = await supabaseServer.storage.listBuckets();
+        
+        if (listError) {
+          console.error("Failed to list storage buckets:", listError);
+          throw new Error("Storage service unavailable. Please contact support.");
+        }
+        
         const bucketExists = buckets?.some(b => b.name === bucket);
         
         if (!bucketExists) {
@@ -204,7 +235,16 @@ export async function POST(req: NextRequest) {
           
           if (createError) {
             console.error("Failed to create bucket:", createError);
-            throw new Error("Storage configuration error. Please contact support.");
+            
+            // More specific error messages based on the error
+            if (createError.message?.includes('permission') || createError.message?.includes('unauthorized')) {
+              throw new Error("Storage permissions error. Please contact support to configure storage access.");
+            } else if (createError.message?.includes('already exists')) {
+              // Bucket might exist but not visible due to permissions
+              console.log("Bucket might already exist, continuing with upload...");
+            } else {
+              throw new Error("Storage configuration error. Please contact support.");
+            }
           }
         }
 
