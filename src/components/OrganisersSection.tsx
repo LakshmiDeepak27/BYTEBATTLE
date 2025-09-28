@@ -16,8 +16,8 @@ export default function OrganisersSection() {
     { name: "Thanmayi", role: "Operations Logistics", image: "/organisers/Thanmayi.jpg" },
     { name: "Raghuram", role: "Operations Logistics", image: "/organisers/Raghuram.jpg" },
     { name: "Aditya", role: "Promotion/Communication Lead", image: "/organisers/Aditya.jpg" },
-    { name: "Indra Smaran", role: "Judging and Evaluation", image: "/organisers/Indra.jpg" },
-    { name: "Indra Smaran", role: "Judging and Evaluation", image: "/organisers/Smaran.jpg" },
+    { name: "Indra", role: "Judging and Evaluation", image: "/organisers/Indra.jpg" },
+    { name: "Smaran", role: "Judging and Evaluation", image: "/organisers/Smaran.jpg" },
   ];
 
   const scrollRef = useRef<HTMLDivElement>(null);

@@ -13,15 +13,15 @@ export default function RegisterCtaSection() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            <div className="bg-red-900/20 rounded-2xl p-4 border border-red-800/30">
+            <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🏆 Prizes</h4>
               <p className="text-sm">Exciting rewards for winners</p>
             </div>
-            <div className="bg-red-900/20 rounded-2xl p-4 border border-red-800/30">
+            <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">📚 Learning</h4>
               <p className="text-sm">Grow your coding skills</p>
             </div>
-            <div className="bg-red-900/20 rounded-2xl p-4 border border-red-800/30">
+            <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🤝 Network</h4>
               <p className="text-sm">Connect with fellow coders</p>
             </div>

@@ -78,15 +78,9 @@ export default function HomePage() {
 
       <div className="relative flex flex-col items-center w-full z-10 mt-10">
         <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-red-400 tracking-wider mb-2 text-center animate-pulse px-4">
-          Registration Starts In
+          Registrations Started!
         </h2>
 
-        <div className="flex flex-wrap justify-center mb-4 px-2">
-          {timeBox(days, "Days")}
-          {timeBox(hours, "Hours")}
-          {timeBox(minutes, "Minutes")}
-          {timeBox(seconds, "Seconds")}
-        </div>
 
         <div className="w-full max-w-4xl">
           <HeroSection />
