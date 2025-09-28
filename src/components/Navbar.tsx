@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image"; // Unused import removed
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const handleScroll = (id: string) => {

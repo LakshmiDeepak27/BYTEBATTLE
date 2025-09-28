@@ -9,19 +9,19 @@ export default function RegisterCtaSection() {
         <div className="space-y-6 text-gray-300">
           <p className="text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
             Join the ultimate coding challenge and test your skills against the best programmers. 
-            Don't miss this opportunity to showcase your talent and win amazing prizes!
+            Don&apos;t miss this opportunity to showcase your talent and win amazing prizes!
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            <div className="bg-black rounded-2xl p-4 border border-red-800/30">
+            <div className="bg-red-900/20 rounded-2xl p-4 border border-red-800/30">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🏆 Prizes</h4>
               <p className="text-sm">Exciting rewards for winners</p>
             </div>
-            <div className="bg-black rounded-2xl p-4 border border-red-800/30">
+            <div className="bg-red-900/20 rounded-2xl p-4 border border-red-800/30">
               <h4 className="text-lg font-semibold text-red-500 mb-2">📚 Learning</h4>
               <p className="text-sm">Grow your coding skills</p>
             </div>
-            <div className="bg-black rounded-2xl p-4 border border-red-800/30">
+            <div className="bg-red-900/20 rounded-2xl p-4 border border-red-800/30">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🤝 Network</h4>
               <p className="text-sm">Connect with fellow coders</p>
             </div>
@@ -34,14 +34,14 @@ export default function RegisterCtaSection() {
             >
               🚀 Register Now 
             </a>
+            
             <p className="text-sm text-gray-400">
-              Registration are open • Limited spots available • Don't miss out!
+              Registration is completely free • Limited spots available • Don&apos;t miss out!
             </p>
           </div>
         </div>
       </div>
     </section>
-    
   );
 }
 

@@ -73,7 +73,7 @@ export default function OrganisersSection() {
               <h4 className="text-lg font-semibold text-red-500 mb-3">📧 Contact Information</h4>
               <p className="text-base">Email: contact@bytebattle.com</p>
               <p className="text-base">Phone: Coming Soon</p>
-              <p className="text-sm text-gray-400 mt-2">We'll update contact details soon</p>
+              <p className="text-sm text-gray-400 mt-2">We&apos;ll update contact details soon</p>
             </div>
 
             <div className="bg-black rounded-2xl p-4 border border-white">

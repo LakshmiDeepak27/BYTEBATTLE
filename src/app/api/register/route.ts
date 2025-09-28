@@ -1,11 +1,14 @@
 // src/app/api/register/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase";
-
-// Rate limiting map
-const rateLimit = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_WINDOW = 60000; // 1 minute
-const MAX_REQUESTS = 5; // 5 registrations per minute per IP
+import { rateLimiters, getClientIP } from "@/lib/rate-limit";
+import { 
+  validateRegistrationInput, 
+  isValidFileType, 
+  isValidFileSize,
+  sanitizeInput,
+  SECURITY_HEADERS 
+} from "@/lib/security";
 
 // Improved unique code generation with timestamp-based approach
 async function generateUniqueCode(): Promise<number> {
@@ -37,35 +40,31 @@ async function generateUniqueCode(): Promise<number> {
   throw new Error("Failed to generate unique code after 50 attempts");
 }
 
-// Rate limiting function
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const userLimit = rateLimit.get(ip);
-  
-  if (!userLimit || now > userLimit.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
-    return true;
-  }
-  
-  if (userLimit.count >= MAX_REQUESTS) {
-    return false;
-  }
-  
-  userLimit.count++;
-  return true;
-}
-
 export async function POST(req: NextRequest) {
   try {
-    // Rate limiting check
-    const ip = req.headers.get("x-forwarded-for") || 
-               req.headers.get("x-real-ip") || 
-               "unknown";
+    // Enhanced rate limiting with new system
+    const ip = getClientIP(req);
+    const rateLimitResult = rateLimiters.registration(ip);
     
-    if (!checkRateLimit(ip)) {
+    if (!rateLimitResult.allowed) {
       return NextResponse.json(
-        { message: "Too many registration attempts. Please try again in a minute." }, 
-        { status: 429 }
+        { message: rateLimitResult.message }, 
+        { 
+          status: 429,
+          headers: SECURITY_HEADERS
+        }
+      );
+    }
+
+    // Check request size
+    const contentLength = req.headers.get("content-length");
+    if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) { // 10MB limit
+      return NextResponse.json(
+        { message: "Request too large. Maximum size is 10MB." },
+        { 
+          status: 413,
+          headers: SECURITY_HEADERS
+        }
       );
     }
 
@@ -90,21 +89,36 @@ export async function POST(req: NextRequest) {
       paymentScreenshot = (formData.get("paymentScreenshot") as File) || null;
     }
 
-    // Enhanced validation
-    if (!name?.trim() || !usn?.trim() || !email?.trim()) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+    // Enhanced input validation using security library
+    const validation = validateRegistrationInput({
+      name,
+      usn,
+      email,
+      phone,
+      language,
+      branch,
+      notes: notes || undefined
+    });
+
+    if (!validation.valid) {
+      return NextResponse.json(
+        { 
+          message: "Validation failed", 
+          errors: validation.errors 
+        }, 
+        { 
+          status: 400,
+          headers: SECURITY_HEADERS
+        }
+      );
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json({ message: "Invalid email format" }, { status: 400 });
-    }
-
-    // Validate USN format (basic check)
-    if (usn.length < 5 || usn.length > 20) {
-      return NextResponse.json({ message: "Invalid USN format" }, { status: 400 });
-    }
+    // Sanitize inputs
+    name = sanitizeInput(name);
+    usn = sanitizeInput(usn).toUpperCase();
+    email = sanitizeInput(email).toLowerCase();
+    phone = sanitizeInput(phone);
+    notes = notes ? sanitizeInput(notes) : null;
 
     // Check duplicates with better error handling
     const { data: existing, error: checkErr } = await supabaseServer
@@ -132,20 +146,23 @@ export async function POST(req: NextRequest) {
       try {
         console.log("Payment screenshot provided, uploading...");
         
-        // Validate file size (3MB limit)
-        const maxSize = 3 * 1024 * 1024; // 3MB
-        if (paymentScreenshot.size > maxSize) {
+        // Enhanced file validation using security library
+        if (!isValidFileSize(paymentScreenshot.size)) {
           return NextResponse.json({ 
             message: "File too large. Maximum size is 3MB." 
-          }, { status: 400 });
+          }, { 
+            status: 400,
+            headers: SECURITY_HEADERS
+          });
         }
 
-        // Validate file type
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-        if (!allowedTypes.includes(paymentScreenshot.type)) {
+        if (!isValidFileType(paymentScreenshot.type)) {
           return NextResponse.json({ 
             message: "Invalid file type. Only JPG and PNG files are allowed." 
-          }, { status: 400 });
+          }, { 
+            status: 400,
+            headers: SECURITY_HEADERS
+          });
         }
 
         const fileBuffer = Buffer.from(await paymentScreenshot.arrayBuffer());
@@ -229,7 +246,10 @@ export async function POST(req: NextRequest) {
         message: "Registered successfully!", 
         user: data,
         code: code // Include code in response for success page
-      }, { status: 201 });
+      }, { 
+        status: 201,
+        headers: SECURITY_HEADERS
+      });
 
     } catch (dbError) {
       console.error("Database operation failed:", dbError);
@@ -258,6 +278,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ 
       message: userMessage,
       errorId: errorId // Include error ID for support
-    }, { status: 500 });
+    }, { 
+      status: 500,
+      headers: SECURITY_HEADERS
+    });
   }
 }

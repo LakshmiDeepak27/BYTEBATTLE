@@ -3,8 +3,9 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const participantCode = searchParams.get("code") || "XXXX";
 
@@ -309,5 +310,13 @@ export default function SuccessPage() {
       </div>
     </div>
     </>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <SuccessContent />
+    </Suspense>
   );
 }

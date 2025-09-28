@@ -2,8 +2,45 @@
 import { NextResponse } from "next/server";
 import { supabaseServer, env } from "@/lib/supabase";
 
+// Rate limiting for admin endpoint
+const adminRateLimit = new Map<string, { count: number; resetTime: number }>();
+const ADMIN_RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_ADMIN_REQUESTS = 20; // 20 admin requests per minute per IP
+
+function checkAdminRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const userLimit = adminRateLimit.get(ip);
+  
+  if (!userLimit || now > userLimit.resetTime) {
+    adminRateLimit.set(ip, { count: 1, resetTime: now + ADMIN_RATE_LIMIT_WINDOW });
+    return true;
+  }
+  
+  if (userLimit.count >= MAX_ADMIN_REQUESTS) {
+    return false;
+  }
+  
+  userLimit.count++;
+  return true;
+}
+
 export async function GET(req: Request) {
   try {
+    // Rate limiting check for admin endpoint
+    const ip = req.headers.get("x-forwarded-for") || 
+               req.headers.get("x-real-ip") || 
+               "unknown";
+    
+    if (!checkAdminRateLimit(ip)) {
+      return NextResponse.json(
+        { 
+          message: "Too many admin requests. Please try again in a minute.",
+          timestamp: new Date().toISOString()
+        }, 
+        { status: 429 }
+      );
+    }
+
     // Enhanced admin authentication
     const adminKey = req.headers.get("x-admin-key") ?? "";
     const expected = env.ADMIN_KEY;
@@ -63,7 +100,6 @@ export async function GET(req: Request) {
       ip: req.headers.get("x-forwarded-for") || "unknown"
     });
 
-    const msg = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json({ 
       message: "Failed to fetch registrations",
       errorId,
