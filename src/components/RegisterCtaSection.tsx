@@ -20,7 +20,7 @@ export default function RegisterCtaSection() {
             </div>
             <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">📚 Benifits</h4>
-              <p className="text-lg">All participants will receive a participation certificate from CodeChef and a 40% discount on CodeChef courses.</p>
+              <p className="text-lg">All participants will receive a participation certificate(Google Verified) from CodeChef and a 40% discount on CodeChef courses.</p>
             </div>
             <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🤝 Network</h4>

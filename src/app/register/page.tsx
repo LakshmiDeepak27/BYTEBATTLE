@@ -151,7 +151,23 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-lg rounded-2xl backdrop-blur bg-black/50 p-8 border border-red-900 neon-glow shadow-2xl">
+        
+         <div className="flex flex-col items-center mb-6">
+      <img
+        src="/logo/image.png" // <-- place your DSATM logo inside /public/logo/dsatm.png
+        alt="DSATM Logo"
+        className="w-40 h-35 object-contain mb-2"
+      />
+      <h2 className="text-lg font-semibold text-gray-200 text-center">
+        Dayananda Sagar Academy of Technology and Management
+      </h2>
+    </div>
+        
+        
+        
         <h1 className="text-3xl font-bold glitch-text text-center mb-6">BYTE BATTLE</h1>
+
+
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Full Name */}
