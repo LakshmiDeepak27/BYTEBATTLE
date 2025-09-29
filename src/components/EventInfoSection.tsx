@@ -11,28 +11,29 @@ export default function EventInfoSection() {
             <div className="space-y-4">
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">📅 Date & Time</h4>
-                <p className="text-base md:text-lg">To be announced soon</p>
+                <p className="text-green-500 md:text-lg">23rd-OCTOBER-2025</p>
+                <p className="text-base md:text-lg">9:00 AM</p>
                 <p className="text-sm text-gray-400 mt-1">Stay tuned for updates</p>
               </div>
               
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">📍 Venue</h4>
-                <p className="text-base md:text-lg">Main Auditorium</p>
-                <p className="text-sm text-gray-400 mt-1">Campus location TBA</p>
+                <p className="text-base md:text-lg">DSATM Auditorium</p>
+                <p className="text-sm text-gray-400 mt-1">Campus location To Be Announced</p>
               </div>
             </div>
             
             <div className="space-y-4">
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">🏆 Format</h4>
-                <p className="text-base md:text-lg">Multiple rounds, increasing difficulty</p>
+                <p className="text-base md:text-lg">Three rounds, increasing difficulty</p>
                 <p className="text-sm text-gray-400 mt-1">Algorithmic challenges</p>
               </div>
               
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">⏱️ Duration</h4>
-                <p className="text-base md:text-lg">Full day event</p>
-                <p className="text-sm text-gray-400 mt-1">Lunch and breaks included</p>
+                <p className="text-base md:text-lg">5-HOURS</p>
+                <p className="text-sm text-gray-400 mt-1">breaks included</p>
               </div>
             </div>
           </div>

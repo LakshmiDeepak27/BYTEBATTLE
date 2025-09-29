@@ -15,7 +15,7 @@ export default function RegisterCtaSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             <div className="bg-black rounded-2xl p-4 border border-white">
               <h4 className="text-lg font-semibold text-red-500 mb-2">🏆 Prizes</h4>
-              <p className="text-lg">The top three winners will receive <span className="text-green-500"> free CodeChef Premium subscription</span> along with a <span className="text-red-500">share of the ₹10,000 prize pool</span>.
+              <p className="text-lg">The top three winners will receive <span className="text-green-500"> free CodeChef Premium subscription</span> along with a <span className="text-red-500">exciting cash prizes</span>.
 </p>
             </div>
             <div className="bg-black rounded-2xl p-4 border border-white">
