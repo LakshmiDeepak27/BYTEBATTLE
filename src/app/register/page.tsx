@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 type Language = "C" | "C++" | "Python" | "Java";
-type Branch = "CSE AI" | "CSE AIML" | "CSE" | "ISE" | "ECE";
+type Branch = "CSE AI" | "CSE AIML" | "CSE" | "ISE" | "ECE" |"other";
 
 interface FormData {
   name: string;
@@ -206,6 +206,7 @@ export default function RegisterPage() {
             <option value="CSE">CSE</option>
             <option value="ISE">ISE</option>
             <option value="ECE">ECE</option>
+            <option value="other">Others</option>
           </select>
 
           {/* Language */}
