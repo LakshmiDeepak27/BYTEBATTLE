@@ -1,5 +1,5 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Orbitron } from 'next/font/google'
 
 const orbitron = Orbitron({ subsets: ['latin'], weight: ['600'] })
@@ -7,7 +7,11 @@ const orbitron = Orbitron({ subsets: ['latin'], weight: ['600'] })
 export const metadata: Metadata = {
   title: 'BYTE BATTLE',
   description: 'Cyberpunk Coding Contest Registration',
-  viewport: 'width=device-width, initial-scale=1',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({

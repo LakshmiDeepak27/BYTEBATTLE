@@ -259,7 +259,8 @@ function SuccessContent() {
             </p>
             <p className="text-xs text-gray-500">
               Generated on {new Date().toLocaleString('en-IN')} | 
-              For queries contact: bytebattle@yourcollege.edu
+              For queries contact: <div><span>6281856189</span> , <span>6300890036</span></div>
+              
             </p>
           </div>
         </div>

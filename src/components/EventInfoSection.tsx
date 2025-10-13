@@ -12,14 +12,14 @@ export default function EventInfoSection() {
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">📅 Date & Time</h4>
                 <p className="text-green-500 md:text-lg">23rd-OCTOBER-2025</p>
-                <p className="text-base md:text-lg">9:00 AM</p>
+                <p className="text-base md:text-lg">9:30 AM</p>
                 <p className="text-sm text-gray-400 mt-1">Stay tuned for updates</p>
               </div>
               
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">📍 Venue</h4>
-                <p className="text-base md:text-lg">DSATM Auditorium</p>
-                <p className="text-sm text-gray-400 mt-1">Campus location To Be Announced</p>
+                <p className="text-base md:text-lg">DSATM</p>
+                <p className="text-sm text-gray-400 mt-1">A-BLOCK 5th FLOOR</p>
               </div>
             </div>
             
@@ -33,7 +33,7 @@ export default function EventInfoSection() {
               <div className="bg-black rounded-2xl p-4 border border-white-800">
                 <h4 className="text-xl font-semibold text-red-500 mb-2">⏱️ Duration</h4>
                 <p className="text-base md:text-lg">5-HOURS</p>
-                <p className="text-sm text-gray-400 mt-1">breaks included</p>
+                <p className="text-sm text-gray-400 mt-1">Breaks Included</p>
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@ export default function EventInfoSection() {
               <li>Real-time leaderboard updates</li>
               <li>Networking opportunities with fellow coders</li>
               <li>Prizes and recognition for top performers</li>
-              <li>Learning sessions and coding tips from experts</li>
+              <li>Learning sessions and coding tips</li>
             </ul>
           </div>
         </div>

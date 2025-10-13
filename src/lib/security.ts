@@ -34,7 +34,9 @@ export const ALLOWED_BRANCHES = [
   'CSE AIML',
   'CSE',
   'ISE',
-  'ECE'
+  'ECE',
+  'OTHER', // logical flag for custom branch values
+  'other' // some clients may send lowercase 'other'
 ] as const;
 
 // Input sanitization
@@ -96,7 +98,14 @@ export function isValidLanguage(language: string): boolean {
 
 // Branch validation
 export function isValidBranch(branch: string): boolean {
-  return (ALLOWED_BRANCHES as readonly string[]).includes(branch);
+  // Accept either a known branch from the allowlist or a custom non-empty value when flagged as OTHER upstream
+  const allowed = (ALLOWED_BRANCHES as readonly string[]).includes(branch);
+  if (allowed) return true;
+  // If it's not in the list, allow a custom value with reasonable length (2-50)
+  // and letters/digits/spaces and common separators like & . ( ) -
+  const trimmed = (branch || '').trim();
+  if (trimmed.length < 2 || trimmed.length > 50) return false;
+  return /^[A-Za-z0-9&().\-\s]+$/.test(trimmed);
 }
 
 // Request size validation

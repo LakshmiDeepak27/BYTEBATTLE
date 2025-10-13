@@ -33,7 +33,7 @@ export default function RegisterCtaSection() {
               href="/register"
               className="inline-block px-8 py-4 rounded-2xl bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 transition-all duration-300 font-bold text-white text-lg shadow-lg hover:shadow-xl hover:scale-105 transform"
             >
-              🚀 Register Now 
+              Register Now 
             </a>
             
             <p className="text-sm text-gray-400">

@@ -77,8 +77,8 @@ export default function OrganisersSection() {
                 href="mailto:chaturva2005@gmail.com"
                 className="text-red-500 font-semibold hover:underline"
               >chaturva2005@gmail.com</a></p>
-              <p className="text-base">Phone-1: <span className="text-red-500">6281856189</span></p>
-              <p className="text-base">Phone-2: <span className="text-red-500">6300890036</span></p>
+              <p className="text-base">Phone-1: <span className="text-green-500">6281856189</span></p>
+              <p className="text-base">Phone-2: <span className="text-green-500">6300890036</span></p>
             </div>
 
             <div className="bg-black rounded-2xl p-4 border border-white">

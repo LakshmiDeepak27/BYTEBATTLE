@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 type Language = "C" | "C++" | "Python" | "Java";
-type Branch = "CSE AI" | "CSE AIML" | "CSE" | "ISE" | "ECE" |"other";
+type Branch = "CSE AI" | "CSE AIML" | "CSE" | "ISE" | "ECE" | "EEE" | "ME" | "CIVIL" | "EIE" | "ETE" | "other";
 
 interface FormData {
   name: string;
@@ -15,6 +15,7 @@ interface FormData {
   phone: string;
   email: string;
   notes?: string;
+  customBranch?: string;
 }
 
 export default function RegisterPage() {
@@ -87,6 +88,10 @@ export default function RegisterPage() {
       setMessage("Name, USN, and Email are required.");
       return false;
     }
+    if (form.branch === "other" && !form.customBranch?.trim()) {
+      setMessage("Please enter your branch in the Others field.");
+      return false;
+    }
     if (!usnPattern.test(form.usn.trim())) {
       setMessage("USN format looks invalid.");
       return false;
@@ -113,7 +118,8 @@ export default function RegisterPage() {
       const formData = new FormData();
       formData.append("name", form.name);
       formData.append("usn", form.usn);
-      formData.append("branch", form.branch);
+      const branchToSend = form.branch === "other" && form.customBranch?.trim() ? form.customBranch.trim() : form.branch;
+      formData.append("branch", branchToSend);
       formData.append("language", form.language);
       formData.append("phone", form.phone);
       formData.append("email", form.email);
@@ -206,8 +212,23 @@ export default function RegisterPage() {
             <option value="CSE">CSE</option>
             <option value="ISE">ISE</option>
             <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="ME">ME</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="EIE">EIE</option>
+            <option value="ETE">ETE</option>
             <option value="other">Others</option>
           </select>
+          {form.branch === "other" && (
+            <input
+              name="customBranch"
+              placeholder="Enter your branch"
+              value={form.customBranch || ""}
+              onChange={handleChange}
+              required
+              className="cyber-input"
+            />
+          )}
 
           {/* Language */}
           <label className="flex items-center gap-1">

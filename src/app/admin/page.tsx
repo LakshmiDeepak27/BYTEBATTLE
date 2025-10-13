@@ -19,6 +19,9 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [registrations, setRegistrations] = useState<Reg[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [total, setTotal] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(50);
 
   const fetchRegs = async () => {
     setLoading(true);
@@ -33,6 +36,15 @@ export default function AdminPage() {
         setError(json.message || "Failed to fetch");
       } else {
         setRegistrations(json.registrations || []);
+        if (json.pagination) {
+          setTotal(json.pagination.total || 0);
+          setPage(json.pagination.page || 1);
+          setLimit(json.pagination.limit || 50);
+        } else {
+          setTotal((json.registrations || []).length);
+          setPage(1);
+          setLimit((json.registrations || []).length || 50);
+        }
       }
     } catch (err) {
       console.error(err);
@@ -74,6 +86,7 @@ export default function AdminPage() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="text-sm text-gray-300">
+                  <th className="p-3 border-b border-red-800/30">S.No</th>
                   <th className="p-3 border-b border-red-800/30">Name</th>
                   <th className="p-3 border-b border-red-800/30">USN</th>
                   <th className="p-3 border-b border-red-800/30">Branch</th>
@@ -85,18 +98,23 @@ export default function AdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {registrations.map((r) => (
-                  <tr key={r.id} className="text-gray-200 hover:bg-white/2">
-                    <td className="p-3 border-b border-red-800/10">{r.name}</td>
-                    <td className="p-3 border-b border-red-800/10">{r.usn}</td>
-                    <td className="p-3 border-b border-red-800/10">{r.branch}</td>
-                    <td className="p-3 border-b border-red-800/10">{r.language}</td>
-                    <td className="p-3 border-b border-red-800/10">{r.phone}</td>
-                    <td className="p-3 border-b border-red-800/10">{r.email}</td>
-                    <td className="p-3 border-b border-red-800/10">{r.paid ? "Yes" : "No"}</td>
-                    <td className="p-3 border-b border-red-800/10">{new Date(r.created_at).toLocaleString()}</td>
-                  </tr>
-                ))}
+                {registrations.map((r, idx) => {
+                  const offset = (page - 1) * limit;
+                  const serialNo = Math.max(1, total - offset - idx);
+                  return (
+                    <tr key={r.id} className="text-gray-200 hover:bg-white/2">
+                      <td className="p-3 border-b border-red-800/10">{serialNo}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.name}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.usn}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.branch}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.language}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.phone}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.email}</td>
+                      <td className="p-3 border-b border-red-800/10">{r.paid ? "Yes" : "No"}</td>
+                      <td className="p-3 border-b border-red-800/10">{new Date(r.created_at).toLocaleString()}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
