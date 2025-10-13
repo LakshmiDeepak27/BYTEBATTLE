@@ -202,17 +202,17 @@ function SuccessContent() {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-300">Event Date:</span>
-                <span className="text-white font-semibold">TBA (To Be Announced)</span>
+                <span className="text-white font-semibold">23 OCTOBER 2025</span>
               </div>
               
               <div className="flex justify-between">
                 <span className="text-gray-300">Venue:</span>
-                <span className="text-white">Your College Campus</span>
+                <span className="text-white">DSATM A-BLOCK 5TH FLOOR</span>
               </div>
               
               <div className="flex justify-between">
                 <span className="text-gray-300">Duration:</span>
-                <span className="text-white">3 Hours</span>
+                <span className="text-white">5 Hours</span>
               </div>
               
               <div className="flex justify-between">
@@ -228,7 +228,7 @@ function SuccessContent() {
               <ul className="text-xs text-gray-300 space-y-2">
                 <li>• <strong>Present this code</strong> at the event venue for verification</li>
                 <li>• <strong>Arrive 30 minutes early</strong> for check-in process</li>
-                <li>• <strong>Bring valid ID</strong> (College ID/Aadhar Card)</li>
+                <li>• <strong>Bring valid ID</strong> (College ID)</li>
                 <li>• <strong>This code is unique</strong> to your registration</li>
                 <li>• <strong>Keep this document safe</strong> until the event</li>
               </ul>
@@ -236,7 +236,6 @@ function SuccessContent() {
                 <li>• <strong>No entry without</strong> valid participant code</li>
                 <li>• <strong>Contact organizers</strong> if you lose this code</li>
                 <li>• <strong>Bring your own laptop</strong> and charger</li>
-                <li>• <strong>Internet will be provided</strong> at the venue</li>
                 <li>• <strong>Follow all event rules</strong> and guidelines</li>
               </ul>
             </div>
@@ -259,8 +258,7 @@ function SuccessContent() {
             </p>
             <p className="text-xs text-gray-500">
               Generated on {new Date().toLocaleString('en-IN')} | 
-              For queries contact: <div><span>6281856189</span> , <span>6300890036</span></div>
-              
+              For queries contact: 6281856189 , 6300890036
             </p>
           </div>
         </div>
